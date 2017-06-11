@@ -16,7 +16,7 @@ The goals / steps of this project are the following:
 [image4]: ./examples/sliding_window.jpg
 [image5]: ./examples/bboxes_and_heat.png
 [image6]: ./examples/labels_map.png
-[image7]: ./examples/output_bboxes.png
+[image7]: ./examples/output_bboxes.jpg
 [video1]: ./project_video.mp4
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/513/view) Points
@@ -49,26 +49,26 @@ Here is an example using the `YCrCb` color space and HOG parameters of `orientat
 
 I have explored different HOG features that we could extract and test.  After each run, the result of the model was saved as well as its scaled_X transform with `scikit-learn` `joblib.dump()` function.  We will use the best saved model for our final vehicle detection implementation in our pipeline.  The following table shows the HOG features I explored:
 
-| HOG Name | Color Space | HOG Channel | Orientation | Pixel/Cell | Cell/Block | Jittered | Train Accuracy | Test Accuracy | Prediction Time |
+| HOG  | Color Space | HOG Channel | Orientation | Pixel/Cell | Cell/Block | Jittered | Train Accuracy | Test Accuracy | Prediction Time |
 | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| CHOGLUV1 | LUV | 1 | 9 | 8 | 2 | No | 1.000 | 0.975 | 0.000141 secs |
-| CHOGHLS1 | HLS | 2 | 9 | 8 | 2 | No | 1.000 | 0.969 | 0.000142 secs |
-| CHOGYUV1 | YUV | 0 | 9 | 8 | 2 | No | 1.000 | 0.985 | **0.000102 secs** |
-| CHOGYUV2 | YUV | 0 | 9 | 4 | 2 | No | 1.000 | **0.987** | 0.000141 secs |
-| CHOGGRAY1 | Grayscale | Grayscale | 9 | 8 | 2 | No | 1.000 | 0.956 | 0.000144 secs |
-| CHOGGRAYRGB1 | Both Grayscale and RGB | Grayscale | 9 | 4 | 2 | No | 1.000 | 0.986 | 0.00035 secs |
-| CHOGHLS2 | HLS | 2 | 9 | 4 | 2 | No  | 1.000 | 0.967 | 0.000145 secs |
-| CHOGRGB1 | RGB | 0 | 9 | 8 | 2 | No  | 1.000 | *0.986* | 0.000142 secs |
-| CHOGRGB2 | RGB | 0 | 8 | 4 | 2 | No  | 1.000 | 0.976 | 0.000142 secs |
-| CHOGRGB3 | RGB | 0 | 9 | 8 | 2 | Yes | 0.968 | 0.946 | 0.000144 secs
-| CHOGRGB4 | RGB | 0 | 8 | 4 | 2 | Yes | 0.999 | 0.948 | 0.000202 secs |
-| CHOGHSV1 | HSV | 1 | 9 | 8 | 2 | No  | 1.000 | 0.980 | 0.000140 secs |
-| CHOGRGB5 | RGB | 0 | 9 | 2 | 2 | Yes | 1.000 | 0.917 | 0.000170 secs |
+| LUV1 | LUV | 1 | 9 | 8 | 2 | No | 1.000 | 0.975 | 0.000141 secs |
+| YUV1 | YUV | 0 | 9 | 8 | 2 | No | 1.000 | 0.985 | **0.000102 secs** |
+| YUV2 | YUV | 0 | 9 | 4 | 2 | No | 1.000 | **0.987** | 0.000141 secs |
+| GRAY1 | Grayscale | Grayscale | 9 | 8 | 2 | No | 1.000 | 0.956 | 0.000144 secs |
+| GRAYRGB1 | Both Grayscale and RGB | Grayscale | 9 | 4 | 2 | No | 1.000 | 0.986 | 0.00035 secs |
+| RGB1 | RGB | 0 | 9 | 8 | 2 | No  | 1.000 | *0.986* | 0.000142 secs |
+| RGB2 | RGB | 0 | 8 | 4 | 2 | No  | 1.000 | 0.976 | 0.000142 secs |
+| RGB3 | RGB | 0 | 9 | 8 | 2 | Yes | 0.968 | 0.946 | 0.000144 secs
+| RGB4 | RGB | 0 | 8 | 4 | 2 | Yes | 0.999 | 0.948 | 0.000202 secs |
+| RGB5 | RGB | 0 | 9 | 2 | 2 | Yes | 1.000 | 0.917 | 0.000170 secs |
+| HSV1 | HSV | 1 | 9 | 8 | 2 | No  | 1.000 | 0.980 | 0.000140 secs |
+| HLS1 | HLS | 2 | 9 | 8 | 2 | No | 1.000 | 0.969 | 0.000142 secs |
+| HLS2 | HLS | 2 | 9 | 4 | 2 | No  | 1.000 | 0.967 | 0.000145 secs |
 
 
-Then I applied the binned color features and the histograms of color in the color space to the HOG feature vector, except for the CHOGGRAY1, which only has the Histogram of Oriented Gradients vectors.  After forming the feature vector, it is then normalized using the `Sci-Kit Learn` `StandardScaler` function to normalize the vector before training with the SVM linear classifier.
+Then I applied the binned color features and the histograms of color in the color space to the HOG feature vector, except for the GRAY1, which only has the Histogram of Oriented Gradients vectors.  After forming the feature vector, it is then normalized using the `Sci-Kit Learn` `StandardScaler` function to normalize the vector before training with the SVM linear classifier.
 
-The HOG feature set for CHOGYUV2 seems to have the best accuracy, 0.987; follow closely by CHOGRGB1 with 0.986 accuracy.  CHOGYUV1 had the best timing with just 0.000102 seconds to do a prediction, but with a lower accuracy of 0.985. 
+The HOG feature set for YUV2 seems to have the best accuracy, 0.987; follow closely by RGB1 with 0.986 accuracy.  YUV1 had the best timing with just 0.000102 seconds to do a prediction, but with a lower accuracy of 0.985. 
 
 #### 3. Describe how (and identify where in your code) you trained a classifier using your selected HOG features (and color features if you used them).
 
@@ -88,13 +88,12 @@ Ultimately I searched on four scales using YCrCb 3-channel HOG features plus spa
 
 ![alt text][image4]
 
-### Optimization
+## Optimization
 
 Unfortunately sliding window approach is very slow due to inefficient overlapping and it is not optimized for run on GPUs. It took over 5 seconds to process one frome, which is far from realtime. So I tried Faster R-CNN method from [CS231n course](http://cs231n.stanford.edu/slides/2016/winter1516_lecture8.pdf). the TensorFlow implementation could be found at [Github](https://github.com/endernewton/tf-faster-rcnn)
 
 Faster R-CNN was selected as it utilize resources more efficiently that speedup the processing almost 8x to ~0.7 seconds per frame using GPU. As I had limited amount of time I used pretrained 
 ResNet with 101 layers, trained on Pascal VOC 2012 dataset
-
 
 ---
 
@@ -104,7 +103,7 @@ ResNet with 101 layers, trained on Pascal VOC 2012 dataset
 Here's a [link to my video result](https://youtu.be/inWlBx4XBNo)
 
 
-####2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
+#### 2. Describe how (and identify where in your code) you implemented some kind of filter for false positives and some method for combining overlapping bounding boxes.
 
 Faster R-CNN produces small amount of false positives. I choose to left Score threshold at 80%. Non-maximum suppression [NMS](./lib/nms/) combines overlapping bounding boxes. 
 
@@ -121,9 +120,9 @@ Faster R-CNN produces small amount of false positives. I choose to left Score th
 
 ---
 
-###Discussion
+### Discussion
 
-####1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
+#### 1. Briefly discuss any problems / issues you faced in your implementation of this project.  Where will your pipeline likely fail?  What could you do to make it more robust?
 
 I studied several approaches during this project, with pros and cons.
 SVM classifier to HOG features covered it the Project lessons is simpler to implement but gives poor perfomance, also it is less agile than Deformable Part Models which is evolution of HOG idea.
